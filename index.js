@@ -100,12 +100,13 @@ module.exports = function (config) {
                     }
                 }
 
+                require('./lib/master')(context);
+
                 // If there's a master plugin defined, pass it on.
                 if (config.master) {
+                    //TODO reexamine this code here
                     context.master_plugin = config.master(context);
                 }
-
-                require('./lib/master')(context);
             }
             else {
                 context.worker(context);
