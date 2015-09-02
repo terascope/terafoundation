@@ -5,7 +5,7 @@ module.exports = function (config) {
     var primary = domain.create();
     var cluster = require('cluster');
     var _ = require('lodash');
-    var makeLogger = require('./lib/makeLogger');
+    var makeLogger = require('./lib/make_logger');
     var startWorkers = require('./lib/start_workers');
 
     var argv = require('yargs')
