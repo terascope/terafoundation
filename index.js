@@ -6,7 +6,7 @@ module.exports = function (config) {
     var cluster = require('cluster');
     var _ = require('lodash');
     var makeLogger = require('./lib/makeLogger');
-    var makeWorkers = require('./lib/makeWorkers');
+    var startWorkers = require('./lib/start_workers');
 
     var argv = require('yargs')
         .alias('c', 'configfile')
@@ -56,7 +56,7 @@ module.exports = function (config) {
 
         context.cluster = cluster;
         context.makeLogger = makeLogger(context);
-        context.makeWorkers = makeWorkers(context);
+        context.startWorkers = startWorkers(context);
 
         // TODO: this can be made more dynamic so we don't hardcode here.
         loadModule('elasticsearch', context);
