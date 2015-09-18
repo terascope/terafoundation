@@ -1,26 +1,46 @@
 'use strict';
 
-module.exports = function (config) {
+module.exports = function(config) {
     var domain = require('domain');
     var primary = domain.create();
     var cluster = require('cluster');
     var _ = require('lodash');
+    var convict = require('convict');
     var makeLogger = require('./lib/make_logger');
     var startWorkers = require('./lib/start_workers');
+    var makeSchema = require('./lib/make_schema');
 
     var argv = require('yargs')
         .alias('c', 'configfile')
         .alias('b', 'bootstrap').argv;
 
-    var sysconfig = require('./lib/sysconfig')({
+    var schema = makeSchema(config);
+
+//TODO make this take JSON and YAML
+    var configFile = require('./lib/sysconfig')({
         configfile: argv.configfile
     });
+
+    var schema = makeSchema(config, configFile);
+
+    var sysconfig = validateConfig(schema, configFile);
 
     var logger = require('./lib/logging')({
         name: config.name,
         cluster: cluster,
         sysconfig: sysconfig
     });
+
+    function validateConfig(schema, configFile) {
+        var config = convict(schema);
+        config.load(configFile);
+
+        if (cluster.isMaster) {
+            config.validate(/*{strict: true}*/);
+        }
+
+        return config.getProperties();
+    }
 
     function errorHandler(err) {
         if (cluster.isMaster) logger.error("Error in master with pid: " + process.pid);
@@ -38,7 +58,7 @@ module.exports = function (config) {
         }
 
         //log saving to disk is async, using hack to give time to flush
-        setTimeout(function () {
+        setTimeout(function() {
             process.exit(-1);
         }, 600)
     }
@@ -47,7 +67,7 @@ module.exports = function (config) {
     primary.on('error', errorHandler);
     process.on('uncaughtException', errorHandler);
 
-    primary.run(function () {
+    primary.run(function() {
 
         /*
          * Service configuration context
@@ -104,7 +124,7 @@ module.exports = function (config) {
                  **/
                 if (argv.bootstrap) {
                     if (config.bootstrap && typeof config.bootstrap === 'function') {
-                        config.bootstrap(context, function () {
+                        config.bootstrap(context, function() {
                             //process.exit(0);
                         });
                     }
@@ -126,21 +146,21 @@ module.exports = function (config) {
                 context.worker(context);
             }
         }
-
+//TODO review validations 'doc' presence
         function loadModule(module, context) {
             var logger = context.logger;
-            var sysconfig = context.sysconfig;
-
+            var sysconfig = context.sysconfig.Terafoundation;
             if (sysconfig.hasOwnProperty(module)) {
                 logger.info("Loading module " + module);
 
                 // Load each connection defined for the module
                 _.forOwn(sysconfig[module], function(moduleConfig, conn) {
-                    if (! context.hasOwnProperty(module)) {
+                    if (!context.hasOwnProperty(module)) {
                         context[module] = {}
                     }
-
-                    context[module][conn] = require('./lib/connectors/' + module)(moduleConfig, logger);
+                    if (conn !== 'doc') {
+                        context[module][conn] = require('./lib/connectors/' + module)(moduleConfig, logger);
+                    }
                 })
             }
         }
