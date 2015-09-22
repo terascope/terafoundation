@@ -94,8 +94,8 @@ module.exports = function(config) {
         // The master shouldn't need these connections.
         if (!context.cluster.isMaster) {
             // We have to load this here so it uses the same mongoose instance
-            // This is really a TeraServer dependency and doesn't belong here.
-            // It's a problem when TeraServer is loaded from node_modules.
+            // This is really a teraserver dependency and doesn't belong here.
+            // It's a problem when teraserver is loaded from node_modules.
             if (config.baucis) {
                 logger.info("Loading module Baucis");
                 context.baucis = require('baucis');
@@ -149,7 +149,7 @@ module.exports = function(config) {
 //TODO review validations 'doc' presence
         function loadModule(module, context) {
             var logger = context.logger;
-            var sysconfig = context.sysconfig.Terafoundation;
+            var sysconfig = context.sysconfig.terafoundation;
             if (sysconfig.hasOwnProperty(module)) {
                 logger.info("Loading module " + module);
 

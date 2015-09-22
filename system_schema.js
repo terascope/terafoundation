@@ -43,36 +43,3 @@ module.exports = {
     }
 
 };
-
-
-/*config.teranaut = {};
- config.teranaut.auth = {};
- config.teranaut.auth.open_signup = true;
- config.teranaut.auth.require_email = true;*/
-
-/*
- ***********************
- API Service Configuration
- ***********************
- */
-/*config.api = {};
-
- config.api.workers = 1;
-
- config.api.port = 8000;
-
- config.api.ssl_path = '/app/config/ssl';
-
- //config.api.redis_ip = '127.0.0.1';
-
- config.api.plugins = ['teranaut'];
-
- // Location of service plugins
- config.api.plugins_path = '/app/api/plugins';
-
- // Location of static HTTP assets.
- config.api.static_assets = '/app/api/public';
-
- config.api.log = '/app/logs/api.log';*/
-
-//module.exports = config;
