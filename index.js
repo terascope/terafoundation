@@ -39,7 +39,24 @@ module.exports = function(config) {
             config.validate(/*{strict: true}*/);
         }
 
-        return config.getProperties();
+        return formatConfig(config.getProperties());
+    }
+
+    function formatConfig(config) {
+        var obj = {};
+        if (config.teraserver && config.teraserver.plugins) {
+            var plugins = config.teraserver.plugins;
+
+            _.each(plugins, function(name) {
+                var pluginConfig = config[name];
+                delete config[name];
+                obj[name] = pluginConfig;
+            });
+
+            config.teraserver.plugins = obj;
+        }
+
+        return config;
     }
 
     function errorHandler(err) {
