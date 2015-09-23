@@ -6,8 +6,6 @@ module.exports = function(config) {
     var cluster = require('cluster');
     var _ = require('lodash');
     var convict = require('convict');
-    var makeLogger = require('./lib/make_logger');
-    var startWorkers = require('./lib/start_workers');
     var makeSchema = require('./lib/make_schema');
 
     var argv = require('yargs')
@@ -82,15 +80,8 @@ module.exports = function(config) {
         }
 
         context.cluster = cluster;
-        context.makeLogger = makeLogger(context);
-        context.startWorkers = startWorkers(context);
 
-        // TODO: this can be made more dynamic so we don't hardcode here.
-        loadModule('elasticsearch', context);
-        loadModule('mongodb', context);
-        loadModule('statsd', context);
-        loadModule('redis', context);
-        loadModule('kafka', context);
+        initAPI(context);
 
         // The master shouldn't need these connections.
         if (!context.cluster.isMaster) {
@@ -148,7 +139,7 @@ module.exports = function(config) {
             }
         }
 //TODO review validations 'doc' presence
-        function loadModule(module, context) {
+        /*function loadModule(module, context) {
             var logger = context.logger;
             var sysconfig = context.sysconfig.terafoundation;
             if (sysconfig.hasOwnProperty(module)) {
@@ -164,6 +155,14 @@ module.exports = function(config) {
                     }
                 })
             }
+        }*/
+
+        function initAPI(context) {
+            context.foundation = {
+                makeLogger: require('./lib/api/make_logger')(context),
+                startWorkers: require('./lib/api/start_workers')(context),
+                getConnection: require('./lib/api/get_connection')(context)
+            };
         }
     });
 
