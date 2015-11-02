@@ -117,10 +117,11 @@ module.exports = function(config) {
         }
 
         function initAPI(context) {
-            logger =  require('./lib/api/make_logger')(context);
-            context.logger = logger(name, name);
+            var makeLogger = require('./lib/api/make_logger')(context);
+            logger =  makeLogger(name, name);
+            context.logger = logger;
             context.foundation = {
-                makeLogger: logger,
+                makeLogger: makeLogger,
                 startWorkers: require('./lib/api/start_workers')(context),
                 getConnection: require('./lib/api/get_connection')(context)
             };
