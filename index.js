@@ -58,6 +58,7 @@ module.exports = function(config) {
         var keyFound = false;
         if (config.descriptors) {
             _.forOwn(config.descriptors, function(value, key) {
+
                 if (process.env[key]) {
                     keyFound = true;
                     config[key](context);
@@ -65,7 +66,6 @@ module.exports = function(config) {
             });
             //if no key was explicitly set then default to worker
             if (!keyFound) {
-                console.log('whats this?', config);
                 config.worker(context);
             }
         }
