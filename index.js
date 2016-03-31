@@ -58,8 +58,8 @@ module.exports = function(config) {
         var keyFound = false;
         if (config.descriptors) {
             _.forOwn(config.descriptors, function(value, key) {
-
-                if (process.env[key]) {
+                console.log(process.env)
+                if (process.env.assignment === key) {
                     keyFound = true;
                     config[key](context);
                 }
