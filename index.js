@@ -22,7 +22,7 @@ module.exports = function(config) {
     if (typeof config.ops_directory === 'function') {
         config.ops_directory = config.ops_directory(configFile);
     }
-    
+
     var logger;
 
     var sysconfig = validateConfigs(cluster, config, configFile);
@@ -65,7 +65,7 @@ module.exports = function(config) {
             startWorkers: require('./lib/api/start_workers')(context),
             getConnection: getConnection
         };
-        
+
         loggerClient(context, logger)
     }
 
@@ -100,8 +100,12 @@ module.exports = function(config) {
         var context = {};
 
         context.sysconfig = sysconfig;
-
         context.cluster = cluster;
+        context.name = name;
+
+        if (config.get_cluster_name) {
+            context.cluster_name = config.get_cluster_name(context.sysconfig);
+        }
 
         initAPI(context);
 

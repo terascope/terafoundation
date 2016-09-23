@@ -29,6 +29,43 @@ module.exports = {
             })
         }
     },
+    log_level: {
+        doc: 'what level of logs should be used by the bunyan logger',
+        default: 'info',
+        format: ['trace', 'debug', 'info', 'warn', 'error', 'fatal']
+    },
+    log_buffer_limit: {
+        doc: 'the number of logs stored in the ringbuffer on the logger before sent, logging must have elasticsearch set as a value for this to take effect',
+        default: 30,
+        format: function(val) {
+            if (isNaN(val)) {
+                throw new Error('log_buffer_limit parameter for terafoundation must be a number')
+            }
+            else {
+                if (val <= 10) {
+                    //the buffer need to be sufficiently large enough to keep all logs before the client is instantiated
+                    //an error will throw if the buffer limit is reached before client is provided
+                    throw new Error('log_buffer_limit parameter for terafoundation must be greater than 10')
+                }
+            }
+        }
+    },
+    log_buffer_interval: {
+        doc: 'interval (number in milliseconds) that the log buffer will send up its logs',
+        default: 10000,
+        format: function(val) {
+            if (isNaN(val)) {
+                throw new Error('log_buffer_interval parameter for terafoundation must be a number')
+            }
+            else {
+                if (val <= 1000) {
+                    //the buffer need to be sufficiently large enough to keep all logs before the client is instantiated
+                    //an error will throw if the buffer limit is reached before client is provided
+                    throw new Error('log_buffer_interval parameter for terafoundation must be greater than a 1000 ms')
+                }
+            }
+        }
+    },
     workers: {
         doc: 'Number of workers per server',
         default: workerCount
