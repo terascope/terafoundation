@@ -32,7 +32,36 @@ module.exports = {
     log_level: {
         doc: 'what level of logs should be used by the bunyan logger',
         default: 'info',
-        format: ['trace', 'debug', 'info', 'warn', 'error', 'fatal']
+        format: function(val) {
+            var check = {'trace': true, 'debug': true, 'info': true, 'warn': true, 'error': true, 'fatal': true};
+            if (typeof val === 'string') {
+                if (!check[val]) {
+                    throw new Error('string configuration parameter for log_level is not an accepted value: ' + val)
+                }
+            }
+            else if (Array.isArray(val)) {
+                //expect data formatted like this =>  [{console: 'warn', file: 'info'}]
+                var options = {console: true, file: true, elasticsearch: true};
+                var incorrectKeys = val.reduce(function(prev, curr) {
+                    for (var key in curr) {
+                        if (!options[key]) {
+                            prev.push(curr)
+                        }
+                        if (!check[curr[key]]) {
+                            prev.push(curr)
+                        }
+                    }
+                    return prev;
+                }, []);
+
+                if (incorrectKeys.length > 0) {
+                    throw new Error('array configuration parameter for log_level are not configured correctly')
+                }
+            }
+            else {
+                throw new Error('configuration parameter for log_level can either be a string or an array, please check the documentation')
+            }
+        }
     },
     log_buffer_limit: {
         doc: 'the number of logs stored in the ringbuffer on the logger before sent, logging must have elasticsearch set as a value for this to take effect',
