@@ -29,8 +29,7 @@ module.exports = function(config) {
     //set by initAPI
 
     function errorHandler(err) {
-        var logErr = logger ? logger.error : console.log;
-
+        var logErr = logger ? logger.error.bind(logger) : console.log;
         if (cluster.isMaster) {
             logErr("Error in master with pid: " + process.pid);
         }
