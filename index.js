@@ -102,8 +102,8 @@ module.exports = function(config) {
         context.cluster = cluster;
         context.name = name;
 
-        if (typeof config.get_cluster_name === 'function') {
-            context.cluster_name = config.get_cluster_name(context.sysconfig);
+        if (typeof config.cluster_name === 'function') {
+            context.cluster_name = config.cluster_name(context.sysconfig);
         }
 
         if (typeof config.logging_connection === 'function') {
