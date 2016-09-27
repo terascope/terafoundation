@@ -102,12 +102,12 @@ module.exports = function(config) {
         context.cluster = cluster;
         context.name = name;
 
-        if (config.get_cluster_name) {
+        if (typeof config.get_cluster_name === 'function') {
             context.cluster_name = config.get_cluster_name(context.sysconfig);
         }
 
-        if (config.get_state_name) {
-            state_connection = config.get_state_name(context.sysconfig)
+        if (typeof config.logging_connection === 'function') {
+            state_connection = config.logging_connection(context.sysconfig)
         }
 
         initAPI(context);
