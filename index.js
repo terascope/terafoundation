@@ -9,7 +9,7 @@ module.exports = function(config) {
     var validateConfigs = require('./lib/validate_configs');
     var name = config.name ? config.name : 'terafoundation';
     var loggerClient = require('./lib/logger_utils').loggerClient;
-    var state_connection = 'default';
+    var logging_connection = 'default';
 
     var argv = require('yargs')
         .alias('c', 'configfile')
@@ -65,7 +65,7 @@ module.exports = function(config) {
             getConnection: getConnection
         };
 
-        loggerClient(context, logger, state_connection)
+        loggerClient(context, logger, logging_connection)
     }
 
     function findWorkerCode(context, config) {
@@ -107,7 +107,7 @@ module.exports = function(config) {
         }
 
         if (typeof config.logging_connection === 'function') {
-            state_connection = config.logging_connection(context.sysconfig)
+            logging_connection = config.logging_connection(context.sysconfig)
         }
 
         initAPI(context);
