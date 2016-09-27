@@ -40,7 +40,7 @@ module.exports = {
                 }
             }
             else if (Array.isArray(val)) {
-                //expect data formatted like this =>  [{console: 'warn', file: 'info'}]
+                //expect data formatted like this =>  [{console: 'warn'}, {file: 'info'}]
                 var options = {console: true, file: true, elasticsearch: true};
                 var incorrectKeys = val.reduce(function(prev, curr) {
                     for (var key in curr) {
@@ -81,7 +81,7 @@ module.exports = {
     },
     log_buffer_interval: {
         doc: 'interval (number in milliseconds) that the log buffer will send up its logs',
-        default: 10000,
+        default: 60000,
         format: function(val) {
             if (isNaN(val)) {
                 throw new Error('log_buffer_interval parameter for terafoundation must be a number')
