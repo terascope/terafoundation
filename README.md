@@ -8,7 +8,7 @@ Here are a few tasks it can help you with:
   * Framework to create a number of general or special child workers
   * Schema validations for app configurations
 
-###Basic Example
+### Basic Example
 ```
 //service.js
 var worker = require('./worker');
@@ -47,7 +47,7 @@ start_workers | By default, the service will attempt to create as many child pro
 shutdownMessaging | If set to true then it provides a ipc shutdown message so all child process can hook into for custom shutdown. All child process will receive an ipc message of {message: 'shutdown'} | Boolean | optional, defaults to false which in turn cause the main process to call a kill signal "SIGINT"
 emitter | you may pass down a node.js event emitter which will emit certain signals to listen on  | function | optional
 
-###Complex example
+### Complex example
 ```
 var foundation = require('terafoundation')({
     name: 'teraslice',
@@ -77,12 +77,12 @@ var foundation = require('terafoundation')({
 ```
 You may pass in multiple different type of child process that behave differently. To use them you must specify them on the descriptors. After this you may create them using `context.foundation.startWorkers` api to create that specific worker type. The descriptor is primarily needed for child worker restarts
 
-####Schemas
+#### Schemas
 We use the [convict](https://github.com/mozilla/node-convict) library for configuration validations. Any top level program can pass down its schema as the config_schema parameter when instantiating terafoundation
 
 You may reference system_schema at the root of terafoundation for references
 
-####Context
+#### Context
 As noted in the basic example above, all child process will be called with a context which contains configurations and apis
 
 The context is an object with the following keys:
@@ -93,7 +93,7 @@ The context is an object with the following keys:
  * `logger` a base top level logger for any logging needs, we use [bunyan](https://github.com/trentm/node-bunyan)
  * `foundation` which contains the api to make a logger, create a database connection, or to make a worker
 
-####API
+#### API
 The api is located at `context.foundation` and it provides three functions:
 
  * `get_connection` which is used to get a database client. 
@@ -144,7 +144,7 @@ or by having the appropriate configuration file located at the root of your proj
 ```
 or by setting an environmental variable `TERAFOUNDATION_CONFIG` to the configuration file
 
-###Example Config
+### Example Config
 
 ```
 top_root_level_application:
@@ -177,7 +177,7 @@ terafoundation:
 
 ```
 
-####Connectors
+#### Connectors
 This is where client config used to set up database connections lives. It is an object with keys set to the different clients and must match the names of the clients listed in connectors/node-modules.
 
 The values are once again objects with keys set to different endpoints within each client. For example in the config above, elasticsearch database has two endpoints listed. The first one is called default which listens to an elasticsearch database on port 9200, and by what its name implies is the endpoint that's used when making a client without specifying an endpoint. The other is endpoint2 which connects to an elasticsearch database on port 9215
