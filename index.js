@@ -65,7 +65,7 @@ module.exports = function(config) {
             makeLogger: makeLogger,
             startWorkers: require('./lib/api/start_workers')(context),
             getConnection: getConnection,
-            events: events
+            getEventEmitter: () => events
         };
 
         loggerClient(context, logger, logging_connection)
