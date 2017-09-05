@@ -95,7 +95,7 @@ module.exports = {
             }
         }
     },
-    log_timeseries: {
+    log_index_rollover_frequency: {
         doc: "How frequently the log indices are created",
         default: "monthly",
         format: ['daily', 'monthly', 'yearly']
