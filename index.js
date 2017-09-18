@@ -8,6 +8,7 @@ module.exports = function module(config) {
 
     const validateConfigs = require('./lib/validate_configs');
     const loggerClient = require('./lib/logger_utils').loggerClient;
+    const api = require('./lib/api');
 
     const name = config.name ? config.name : 'terafoundation';
     let loggingConnection = 'default';
@@ -55,23 +56,6 @@ module.exports = function module(config) {
         }, 600);
     }
 
-    function initAPI(context) {
-        const makeLogger = require('./lib/api/make_logger')(context);
-        // set outside logger
-        logger = makeLogger(name, name);
-        context.logger = logger;
-        const getConnection = require('./lib/api/get_connection')(context);
-        const events = require('./lib/api/events');
-        context.foundation = {
-            makeLogger,
-            startWorkers: require('./lib/api/start_workers')(context),
-            getConnection,
-            getEventEmitter: () => events
-        };
-
-        loggerClient(context, logger, loggingConnection);
-    }
-
     function findWorkerCode(context) {
         let keyFound = false;
         if (config.descriptors) {
@@ -113,7 +97,14 @@ module.exports = function module(config) {
             loggingConnection = config.loggingConnection(context.sysconfig);
         }
 
-        initAPI(context);
+        // Initialize the API
+        api(context);
+
+        // Bootstrap the top level logger
+        context.logger = context.apis.foundation.makeLogger(context.name, context.name);
+        // FIXME: this should probably be refactored to actually create the
+        // logger as it stands this function is very confusing
+        loggerClient(context, context.logger, loggingConnection);
 
         // The master shouldn't need these connections.
         if (!context.cluster.isMaster) {
