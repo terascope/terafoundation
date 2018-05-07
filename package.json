@@ -19,7 +19,7 @@
     "js-yaml": "^3.11.0",
     "lodash": "~4.17.5",
     "moment": "^2.21.0",
-    "mongoose": "~5.0",
+    "mongoose": "~4.13.12",
     "node-statsd": "0.1.1",
     "node-webhdfs": "^0.2.1",
     "redis": "^2.8.0",
