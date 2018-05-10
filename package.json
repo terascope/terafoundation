@@ -9,7 +9,7 @@
   },
   "dependencies": {
     "agentkeepalive": "^3.4.1",
-    "baucis": "1.6.8",
+    "baucis": "1.6.5",
     "bluebird": "^3.5.1",
     "bunyan": "^1.8.12",
     "bunyan-elasticsearch": "1.0.1",
