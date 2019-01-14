@@ -1825,13 +1825,13 @@ node-statsd@0.1.1:
   resolved "https://registry.yarnpkg.com/node-statsd/-/node-statsd-0.1.1.tgz#27a59348763d0af7a037ac2a031fef3f051013d3"
   integrity sha1-J6WTSHY9CvegN6wqAx/vPwUQE9M=
 
-node-webhdfs@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/node-webhdfs/-/node-webhdfs-1.0.0.tgz#a3f1e63db32f2c834c46d3f6e0988d57a7914830"
-  integrity sha512-p02YMX25e+9fvy29vOf+02suEGyKaPQBlYnUIu4VidqUS1MpnFNycJnGqZIHd+pdSmLeRIsm45PTWmTKTUsBcg==
+node-webhdfs@^0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/node-webhdfs/-/node-webhdfs-0.2.1.tgz#d6b3910116e4ab5bb1c5bdd80991728ee67f2220"
+  integrity sha512-k/HyCaKP9xoplWwqye6bQgxUkAEoe64SjGTzb4RLhiN1RTGnA+71lt1SF9Q2hn32pNua/xe2wPpzC/gPp6bfzQ==
   dependencies:
-    lodash "^4.17.10"
-    request "^2.87.0"
+    lodash "^4.17.4"
+    request "^2.45.0"
 
 normalize-package-data@^2.3.2:
   version "2.4.0"
@@ -2295,7 +2295,7 @@ release-zalgo@^1.0.0:
   dependencies:
     es6-error "^4.0.1"
 
-request@^2.87.0:
+request@^2.45.0, request@^2.87.0:
   version "2.88.0"
   resolved "https://registry.yarnpkg.com/request/-/request-2.88.0.tgz#9c2fca4f7d35b592efe57c7f0a55e81052124fef"
   integrity sha512-NAqBSrijGLZdM0WZNsInLJpkJokL72XYjUpnB0iwsRgxh7dB6COrHnTBNwN0E+lHDAJzu7kLAkDeY08z2/A0hg==
